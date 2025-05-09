@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+    <style>
+      .breathe-btn {
+          position: relative;
+          width: 200px;
+          height: 20px;
+          margin: 40px auto;
+          line-height: 20px;
+          border: 1px solid #3de114;
+          border-radius: 10px;
+          color: #fff;
+          text-align: center;
+          cursor: pointer;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+          overflow: hidden;
+          background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(59 255 170)), to(rgb(61 255 20)));
+          -webkit-animation-timing-function: ease-in-out;
+          -webkit-animation-name: breathe;
+          -webkit-animation-duration: 2700ms;
+          -webkit-animation-iteration-count: infinite;
+          -webkit-animation-direction: alternate;
+      }
+  
+      @-webkit-keyframes breathe {
+          0% {
+              opacity: .2;
+              box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+          }
+  
+          100% {
+              opacity: 1;
+              border: 1px solid rgb(59 255 170);
+              box-shadow: 0 1px 30px #3de114;
+          }
+      }
+      </style>
+  </head>
+  <body>
+    <div id="index-loading" class="breathe-btn">加载中, 请稍后</div>
+    <div id="app"></div>
+    <script type="module" src="/src/renderer.ts"></script>
+  </body>
+</html>
