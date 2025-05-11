@@ -2,7 +2,7 @@
   <div class="index-login-box">
     <el-form autoComplete="on" :model="loginForm" ref="loginForm" label-position="left" label-width="0px"
       class="index-login-form">
-      <h3 class="title">{{login_title}}</h3>
+      <h3 class="title">{{ login_title }}</h3>
       <el-form-item prop="username" required inline-message>
         <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户" />
       </el-form-item>
@@ -15,6 +15,12 @@
         登录
       </el-button>
     </el-form>
+    <div>
+      {{ versions() }}
+    </div>
+
+
+
   </div>
 </template>
 <script lang="ts" setup>
@@ -46,6 +52,10 @@ export default defineComponent({
     }
   },
   methods: {
+    versions() {
+      return `This app is using Chrome (v${versions.chrome()}), Node.js (v${versions.node()}), and Electron (v${versions.electron()})`
+
+    },
     handleLogin(loginForm: any) {
       loginForm?.validate(async (valid: any) => {
         if (valid) {

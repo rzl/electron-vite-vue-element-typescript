@@ -3,20 +3,20 @@ import { request } from '@/utils/utils'
 import { defineStore } from 'pinia'
 
 export interface I_userInfo {
-	userInfo: {
+  userInfo: {
     id: string;
     username: string;
     password: string;
   };
-	token: string;
+  token: string;
 }
 
 export interface I_menu {
   id: string;
-	name: string;
+  name: string;
   path: string;
-	component: string;
-	meta: {
+  component: string;
+  meta: {
     hidden: boolean;
     route: string;
     internalOrExternal: boolean;
@@ -28,8 +28,7 @@ export interface I_menu {
   };
 }
 
-export const userStore = defineStore({
-  id: 'user',
+export const userStore = defineStore('user', {
   state: () => {
     return {
       userInfo: {
@@ -52,7 +51,7 @@ export const userStore = defineStore({
   actions: {
     async login(userInfo: any) {
       try {
-        let res  = await request.guest.login(userInfo)
+        let res = await request.guest.login(userInfo)
         if (res.statusCode == 200) {
           let { token } = res.result
           this.token = token
@@ -66,7 +65,7 @@ export const userStore = defineStore({
         console.error(e)
         throw e
       }
-    
+
     },
     async loginOut() {
 
@@ -85,7 +84,7 @@ export const userStore = defineStore({
       try {
         let res: any = await request.userRequest.getPermissions()
         if (res.code == '200') {
-          var  {menu , button_permission} = res.result
+          var { menu, button_permission } = res.result
           this.menu = menu
           this.button_permission = button_permission
           return res.result

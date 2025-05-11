@@ -41,22 +41,23 @@ import vueProp from '@/utils/vue.prop'
 
 
 async function main() {
-    const app = createApp(App)   
+    const app = createApp(App)
     window.Vue = app
     window.VUE = VUE
     app.use(ElementPlus, {
         locale: zhCn,
     })
-    
+
     app.use(router)
     app.use(store)
     app.mount('#app')
     vueProp(app)
-    
+
 }
 main()
-var loadEl = document.querySelector('#index-loading') as HTMLElement
-loadEl.style.display = 'none'
-
+const loadEl = document.querySelector('#index-loading') as HTMLElement
+if (loadEl) {
+    loadEl.style.display = 'none'
+}
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');

@@ -1,12 +1,53 @@
-import { app, BrowserWindow } from 'electron';
+import { app, ipcMain, BrowserWindow } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
-
+import { randomUUID } from 'node:crypto';
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
   app.quit();
 }
 
+import { getContextFn } from './main/electronContext';
+ipcMain.handle('electronContext', async (event, opt: any) => {
+  console.log('electronContext start', opt);
+  let fn = await getContextFn(opt.method, opt.path);
+  if (fn) {
+    try {
+      let res = await fn.fn(opt.opt);
+      console.log('electronContext end', opt, res);
+      return {
+        code: 200,
+        msg: 'success',
+        data: res,
+      };
+    } catch (e) {
+      console.error('electronContext error', opt, e);
+      return {
+        code: 500,
+        msg: 'error',
+        data: e,
+      };
+    }
+  } else {
+    console.warn(`not found ${opt.method} ${opt.path}`);
+    return {
+      code: 404,
+      msg: 'not found',
+      data: null,
+    };
+  }
+});
+function sleep(time: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
+
+}
+ipcMain.handle('getUUID', async (event, ...args) => {
+  return randomUUID();
+});
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
