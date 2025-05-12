@@ -6,6 +6,30 @@ import { MakerRpm } from '@electron-forge/maker-rpm';
 import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+// 递归复制目录
+async function copyDir(src: string, dest: string) {
+  try {
+    await fs.mkdir(dest, { recursive: true });
+    const entries = await fs.readdir(src, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, entry.name);
+
+      if (entry.isDirectory()) {
+        await copyDir(srcPath, destPath); // 递归复制子目录
+      } else {
+        await fs.copyFile(srcPath, destPath); // 复制文件
+        console.log(`Copied file: ${srcPath} -> ${destPath}`);
+      }
+    }
+  } catch (error) {
+    console.error(`Error copying files: ${error.message}`);
+    throw error;
+  }
+}
 
 const config: ForgeConfig = {
   packagerConfig: {
@@ -49,6 +73,31 @@ const config: ForgeConfig = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  hooks: {
+    postPackage: async (forgeConfig, options) => {
+      console.log(`postPackage app on platform: ${process.platform}`);
+
+      // 源目录（需要复制的目录）
+      const sourceDir = path.resolve(__dirname, 'node_modules/sqlite3');
+      // 目标目录（复制到打包后的目录）
+      const targetDir = path.join(options.outputPaths[0], 'resources', 'node_modules', 'sqlite3');
+
+      // 检查源目录是否存在
+      try {
+        await fs.access(sourceDir, fs.constants.F_OK);
+      } catch (error) {
+        console.error(`Source directory ${sourceDir} does not exist.`);
+        return;
+      }
+      
+      try {
+        await copyDir(sourceDir, targetDir);
+        console.log(`Successfully copied ${sourceDir} to ${targetDir}`);
+      } catch (error) {
+        console.error(`Error copying files: ${error.message}`);
+      }
+    },
+  },
 };
 
 export default config;

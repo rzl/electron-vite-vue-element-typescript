@@ -12,58 +12,58 @@ export class BaseWithoutID extends Model {
      */
      @Comment('租户ID')
      @Default('0')
-     @Column
+     @Column(sequelize.STRING)
      tenant_id: string
 
  
      @Comment('创建时间')
      @CreatedAt
-     @Column
+     @Column(sequelize.DATE)
      created_at: Date
  
      @Comment('更新时间')
      @UpdatedAt
-     @Column
+     @Column(sequelize.DATE)
      updated_at: Date
  
      @Comment('删除时间')
      @DeletedAt
-     @Column
+     @Column(sequelize.DATE)
      delete_at: Date
  
      /**
       * 创建者ID
       */
      @Comment('创建者ID')
-     @Column
+     @Column(sequelize.STRING)
      created_id: string
  
      /**
       * 最后更新的用户ID
       */
      @Comment('更新者ID')
-     @Column
+     @Column(sequelize.STRING)
      update_id: string
  
      /**
       * 默认状态字段
       */
      @Comment('状态')
-     @Column
+     @Column(sequelize.NUMBER)
      stat: number
  
      /**
       * 默认审核状态
       */
      @Comment('BPM状态')
-     @Column
+     @Column(sequelize.NUMBER)
      bpm: number
  
      /**
       * 数据标签字段
       */
      @Comment('标签')
-     @Column
+     @Column(sequelize.STRING)
      tag: string
  
      /**
@@ -83,7 +83,7 @@ export class Base extends BaseWithoutID {
     @PrimaryKey
     @Default(UUIDV4)
     @Comment('ID')
-    @Column
+    @Column(sequelize.STRING)
     id: string
 
 }
@@ -91,18 +91,18 @@ export class Base extends BaseWithoutID {
 @Table
 export class BaseModel extends Base {
     @Comment('名称')
-    @Column
+    @Column(sequelize.STRING)
     name: string;
 
     @Comment('描述')
-    @Column
+    @Column(sequelize.STRING)
     description: string
 }
 
 @Table
 export class BaseTree extends BaseModel {
     @Comment('父节点ID')
-    @Column
+    @Column(sequelize.STRING)
     pid: string
 }
 

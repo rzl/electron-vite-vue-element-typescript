@@ -4,6 +4,7 @@
  */
 import { Table, Column, Model, ForeignKey, HasMany, BelongsTo, DataType, Comment } from 'sequelize-typescript';
 import { Base, BaseModel, BaseScript } from './base.entity';
+import sequelize from 'sequelize';
 
 /**
  * 系统字典
@@ -11,10 +12,10 @@ import { Base, BaseModel, BaseScript } from './base.entity';
 @Table
 export class dictionarys extends BaseModel {
     @Comment('值')
-    @Column
+    @Column(sequelize.STRING)
     value: string
 
     @Comment('父节点ID')
-    @Column
+    @Column(sequelize.STRING)
     pid: string
 }

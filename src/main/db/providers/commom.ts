@@ -1,6 +1,5 @@
 import { tables } from '../entity/tables.entity'
 import { table_columns } from '../entity/table_columns.entity'
-import { share } from 'src/utils/share';
 import { buildTablesData, defaultModel } from '../utils';
 import { configures } from '../entity/configures.entity';
 import { dictionarys } from '../entity/dictionarys.entity';

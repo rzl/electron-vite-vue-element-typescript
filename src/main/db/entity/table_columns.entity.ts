@@ -8,22 +8,22 @@ import { tables } from './tables.entity';
 export class table_columns extends Base {
 
 
-  @Column
+  @Column(sequelize.STRING)
   name: string //对应table
 
-  @Column
+  @Column(sequelize.STRING)
   label: string //对应label
   
-  @Column
+  @Column(sequelize.STRING)
   type: string //数据库类型
   
-  @Column
+  @Column(sequelize.BOOLEAN)
   hidden: boolean
 
-  @Column
+  @Column(sequelize.STRING)
   table_name: string
 
   @ForeignKey(() => tables)
-  @Column
+  @Column(sequelize.STRING)
   table_id: string
 }

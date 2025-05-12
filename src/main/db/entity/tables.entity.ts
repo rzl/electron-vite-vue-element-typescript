@@ -11,16 +11,16 @@ export class tables extends Base {
   })
   name: string;
 
-  @Column
+  @Column(sequelize.STRING)
   prop: string //对应prop
 
-  @Column
+  @Column(sequelize.STRING)
   label: string //对应label
 
-  @Column
+  @Column(sequelize.STRING)
   type: string //数据库类型
 
-  @Column
+  @Column(sequelize.STRING)
   stat: number //表示表的状态
 
   @HasMany(() => table_columns, {
