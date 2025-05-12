@@ -1,11 +1,12 @@
 import { tables } from '../entity/tables.entity'
 import { table_columns } from '../entity/table_columns.entity'
-import { buildTablesData, defaultModel } from '../utils';
+import { buildTablesData } from '../utils';
 import { configures } from '../entity/configures.entity';
 import { dictionarys } from '../entity/dictionarys.entity';
 import { users } from '../entity/users.entity';
 import { defaultData } from '../defaultData';
-export async function init(sequelize: any) {
+import { Sequelize } from 'sequelize-typescript';
+export async function init(sequelize: Sequelize) {
 
     sequelize.addModels([
         configures,
@@ -14,10 +15,10 @@ export async function init(sequelize: any) {
         tables,
         users,
     ]);
-    defaultModel(sequelize)
-    await buildTablesData(sequelize)
     await sequelize.sync({ alter: { drop: false } });
-    defaultData(sequelize)
+    // await buildTablesData(sequelize)
+    debugger
+    await defaultData(sequelize)
 
     return sequelize;
 }

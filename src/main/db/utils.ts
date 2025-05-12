@@ -57,9 +57,7 @@ export async function buildTablesData(sequelize) {
   var ignoreTableColumn = [];
   var { tables, table_columns } = sequelize.models;
   try {
-    var modelKeys = Object.keys(sequelize.models).filter((t) =>
-      !["Session", "Sessions"].includes(t)
-    );
+    var modelKeys = Object.keys(sequelize.models)
     for (let index = 0; index < modelKeys.length; index++) {
       let t = modelKeys[index];
       let [table] = await tables.findOrCreate({
@@ -97,88 +95,4 @@ export async function buildTablesData(sequelize) {
   }
 }
 
-export function defaultModel(sequelize) {
-  var baseProp = Reflect.getMetadata("sequelize:attributes", Base.prototype);
-  const servers = sequelize.define("servers", {
-    name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    host: Sequelize.STRING,
-    port: Sequelize.INTEGER,
-    keyPath: Sequelize.STRING,
-    username: Sequelize.STRING,
-    password: Sequelize.STRING,
-    remote_path: Sequelize.STRING,
-    local_path: Sequelize.STRING,
-    ignore: Sequelize.STRING,
-    exec: Sequelize.STRING,
-    stat: Sequelize.INTEGER,
-    tag: Sequelize.STRING,
-    ...baseProp,
-  });
-
-  const publishStrategies = sequelize.define("publish_strategies", {
-    name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    script: Sequelize.STRING,
-    stat: Sequelize.INTEGER,
-    tag: Sequelize.STRING,
-    ...baseProp,
-  });
-
-  const packStrategies = sequelize.define("pack_strategies", {
-    name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    script: Sequelize.STRING,
-    stat: Sequelize.INTEGER,
-    tag: Sequelize.STRING,
-  });
-
-  const privateKeys = sequelize.define("private_keys", {
-    name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    path: Sequelize.STRING,
-    tag: Sequelize.STRING,
-  });
-
-  const project = sequelize.define("projects", {
-    name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    git: Sequelize.STRING,
-    branch: Sequelize.STRING,
-    keyPath: Sequelize.STRING,
-    tag: Sequelize.STRING,
-    stat: Sequelize.INTEGER,
-  });
-
-  const tasks = sequelize.define("tasks", {
-    arg: Sequelize.STRING,
-    cmd: Sequelize.STRING,
-    pid: Sequelize.INTEGER,
-    description: Sequelize.STRING,
-    type: Sequelize.STRING,
-    stat: Sequelize.STRING,
-    result: Sequelize.STRING,
-    tag: Sequelize.STRING,
-  });
-
-  const schedules = sequelize.define("schedules", {
-    name: Sequelize.STRING,
-    description: Sequelize.STRING,
-    schedule: Sequelize.STRING,
-    stat: Sequelize.STRING,
-    startDateTime: Sequelize.DATE,
-    endDateTime: Sequelize.DATE,
-    tag: Sequelize.STRING,
-  });
-
-  const session = sequelize.define("sessions", {
-    sid: {
-      type: Sequelize.STRING,
-      primaryKey: true,
-    },
-    userId: Sequelize.STRING,
-    expires: Sequelize.DATE,
-    data: Sequelize.TEXT,
-  });
-}
 

@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto';
 import { getContextFn } from './main/electronContext';
 import './main/electronContext/index'
 import { init } from './main/db/providers/commom';
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import  sqlite3 from 'sqlite3';
 async function main() {
   const sequelize = new Sequelize({
@@ -18,7 +18,7 @@ async function main() {
       acquire: 30000,
       idle: 10000
     },
-    storage: './database.sqlite',
+    storage: process.cwd() + '/database.sqlite',
   })
   
   await init(sequelize); 

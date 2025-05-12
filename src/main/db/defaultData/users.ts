@@ -1,11 +1,12 @@
+import { Sequelize } from "sequelize-typescript";
 import { encryptPassword } from "../utils";
 
 const DEFAULT_USERS_KEY = '00000000-0000-4a7a-9125'
 const DEFAULT_USERS_PASSWORD = '123456'
 
-export function defaultUsers(sequelize: any) {
+export async function defaultUsers(sequelize: Sequelize) {
     var users = sequelize.models.users;
-    users.findOrCreate({
+    await users.findOrCreate({
         where: {
             id: `${DEFAULT_USERS_KEY}-000000000001`,
         },

@@ -18,17 +18,17 @@ export class BaseWithoutID extends Model {
  
      @Comment('创建时间')
      @CreatedAt
-     @Column(sequelize.DATE)
+     @Column(DataType.NOW)
      created_at: Date
  
      @Comment('更新时间')
      @UpdatedAt
-     @Column(sequelize.DATE)
+     @Column(DataType.NOW)
      updated_at: Date
  
      @Comment('删除时间')
      @DeletedAt
-     @Column(sequelize.DATE)
+     @Column(DataType.NOW)
      delete_at: Date
  
      /**
