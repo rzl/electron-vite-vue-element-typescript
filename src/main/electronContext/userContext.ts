@@ -1,13 +1,10 @@
 import { db } from "../db/db.providers";
 import { registerContext } from "../electronContext";
 
-registerContext('get', '/user', (opt: any) => {
-
-})
-
-registerContext('post', '/user', (opt: any) => {
-    console.log(opt.body)
-    return db.users.findOne({
+registerContext('post', '/user', async (opt: any) => {
+    let user = await db.users.findOne({
         where: { username: opt.body.username }
     })
+    console.log(user)
+    return user.toJSON();
 })

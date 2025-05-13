@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize";
 import { defaultUsers } from "./users";
 
 export async function defaultData(sequelize: Sequelize) {

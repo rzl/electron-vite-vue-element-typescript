@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { Base } from "./entity/base.entity";
+import { Base } from "./models/base.entity";
 import { createCipheriv, scryptSync } from "crypto";
 
 export function GetNormalColumn() {

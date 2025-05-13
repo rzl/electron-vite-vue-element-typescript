@@ -1,9 +1,12 @@
-import { tables } from './entity/tables.entity';
-import { users } from './entity/users.entity';
-import { table_columns } from './entity/table_columns.entity';
+import { Model, ModelCtor, Sequelize } from "sequelize";
+import { usersModel } from "./models/users.model";
+import { defaultData } from "./defaultData";
+export const db:{[key: string]: ModelCtor<Model<any, any>>} = {}
+export async function init(sequelize: Sequelize) {
 
-export const db = {
-  users,
-  tables,
-  table_columns
+    db.users = usersModel(sequelize)
+    await sequelize.sync({ alter: { drop: true } });
+    defaultData(sequelize)
+
+    return sequelize;
 }

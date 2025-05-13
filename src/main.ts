@@ -5,23 +5,15 @@ import { randomUUID } from 'node:crypto';
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 import { getContextFn } from './main/electronContext';
 import './main/electronContext/index'
-import { init } from './main/db/providers/commom';
-import { Sequelize } from 'sequelize-typescript';
-import  sqlite3 from 'sqlite3';
+import { init } from './main/db/db.providers';
+import sqlite3 from 'sqlite3';
+// import moment from 'moment';
+import { Sequelize } from 'sequelize';
 async function main() {
-  const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    dialectModule: sqlite3,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    },
-    storage: process.cwd() + '/database.sqlite',
-  })
+  console.log('main start');
   
-  await init(sequelize); 
+  // console.log('moment', moment.isMoment('2023-10-01 12:00:00'));
+  debugger
 
   if (started) {
     app.quit();
@@ -34,7 +26,7 @@ async function main() {
     let fn = await getContextFn(opt.method, opt.path);
     if (fn) {
       try {
-        let res = await fn.fn(opt.opt);
+        let res = await fn.fn(opt);
         console.log('electronContext end', opt, res);
         return {
           code: 200,
@@ -69,7 +61,22 @@ async function main() {
   ipcMain.handle('getUUID', async (event, ...args) => {
     return randomUUID();
   });
-  const createWindow = () => {
+  const createWindow = async () => {
+    console.log('init db start');
+    const sequelize = new Sequelize({
+      dialect: 'sqlite',
+      dialectModule: sqlite3,
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      },
+      storage: process.cwd() + '/database.sqlite',
+    })
+
+    await init(sequelize);
+    console.log('init db success');
     // Create the browser window.
     const mainWindow = new BrowserWindow({
       width: 1024,
