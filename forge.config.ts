@@ -30,6 +30,15 @@ async function copyDir(src: string, dest: string) {
     throw error;
   }
 }
+async function copyModuleDir(src: string, options: any) {
+      // 源目录（需要复制的目录）
+      const sourceDir = path.resolve(__dirname, 'node_modules', src);
+      // 目标目录（复制到打包后的目录）
+      const targetDir = path.join(options.outputPaths[0], 'resources', 'node_modules', src);
+      copyDir(sourceDir, targetDir);
+      console.log(`Successfully copied ${sourceDir} to ${targetDir}`);
+
+}
 
 const config: ForgeConfig = {
   packagerConfig: {
@@ -77,22 +86,23 @@ const config: ForgeConfig = {
     postPackage: async (forgeConfig, options) => {
       console.log(`postPackage app on platform: ${process.platform}`);
 
-      // 源目录（需要复制的目录）
-      const sourceDir = path.resolve(__dirname, 'node_modules/sqlite3');
-      // 目标目录（复制到打包后的目录）
-      const targetDir = path.join(options.outputPaths[0], 'resources', 'node_modules', 'sqlite3');
+      // // 源目录（需要复制的目录）
+      // const sourceDir = path.resolve(__dirname, 'node_modules/sqlite3');
+      // // 目标目录（复制到打包后的目录）
+      // const targetDir = path.join(options.outputPaths[0], 'resources', 'node_modules', 'sqlite3');
 
       // 检查源目录是否存在
-      try {
-        await fs.access(sourceDir, fs.constants.F_OK);
-      } catch (error) {
-        console.error(`Source directory ${sourceDir} does not exist.`);
-        return;
-      }
+      // try {
+      //   await fs.access(sourceDir, fs.constants.F_OK);
+      // } catch (error) {
+      //   console.error(`Source directory ${sourceDir} does not exist.`);
+      //   return;
+      // }
       
       try {
-        await copyDir(sourceDir, targetDir);
-        console.log(`Successfully copied ${sourceDir} to ${targetDir}`);
+        await copyModuleDir('sqlite3', options);
+        await copyModuleDir('moment', options);
+        console.log(`Successfully copied`);
       } catch (error) {
         console.error(`Error copying files: ${error.message}`);
       }
