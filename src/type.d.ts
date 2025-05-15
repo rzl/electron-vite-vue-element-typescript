@@ -15,10 +15,28 @@ declare module '@vue/runtime-core' {
 }
 
 declare global {
+  interface ElectronContextCallOptions {
+    method: string;
+    path: string;
+    body?: any;
+    params?: any;
+  }
+
+  interface ElectronContextCallResponse {
+    code: number;
+    message: string;
+    result: any;
+  }
+
+  type ElectronContextCallResponsePromise = Promise<ElectronContextCallResponse>;
+
   interface Window {
-    vue: DefineComponent
-    Vue: VUE.App<Element>
-    VUE: VUE
+    vue: DefineComponent;
+    Vue: VUE.App<Element>;
+    VUE: VUE;
+    electronContext: {
+      call: (options: ElectronContextCallOptions) => ElectronContextCallResponsePromise; // 使用全局类型 Options
+    };
   }
 }
 
