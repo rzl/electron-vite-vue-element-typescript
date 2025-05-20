@@ -1,15 +1,8 @@
 import Sequelize from "sequelize";
-import { Base } from "./models/base.entity";
 import { createCipheriv, scryptSync } from "crypto";
 
-export function GetNormalColumn() {
-  return function (target) {
-    debugger;
-    console.log(target);
-  };
-}
 
-export function encryptPassword(password) {
+export function encryptPassword(password: string) {
   let a = scryptSync(password, "salt", 24);
   let c = createCipheriv("aes-192-cbc", a, a.toString("base64").substring(16));
   let d = c.update("abcdefghijklmnopqrstuvwxyz", "utf8", "hex");
@@ -17,11 +10,11 @@ export function encryptPassword(password) {
   return d;
 }
 
-export function comparePassword(password, dbPassword) {
+export function comparePassword(password: string, dbPassword: string) {
   return encryptPassword(password) === dbPassword;
 }
 
-export function testType(type) {
+export function testType(type: string) {
   switch (type) {
     case "STRING":
       return Sequelize.STRING;
@@ -38,7 +31,7 @@ export function testType(type) {
   }
 }
 
-export async function initTableModels(sequelize) {
+export async function initTableModels(sequelize: Sequelize.Sequelize) {
   var { tables, table_columns } = sequelize.models;
   var models = await tables.findAll();
   for (let i = 0; i < models.length; i++) {

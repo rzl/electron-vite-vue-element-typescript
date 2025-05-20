@@ -18,6 +18,17 @@ export async function defaultUsers(sequelize: Sequelize) {
                 tenant_id: "0",
             },
         });
+        await users.findOrCreate({
+            where: {
+                id: `${DEFAULT_USERS_KEY}-000000000002`,
+            },
+            defaults: {
+                id: `${DEFAULT_USERS_KEY}-000000000002`,
+                username: "user",
+                password: encryptPassword(DEFAULT_USERS_PASSWORD),
+                tenant_id: "0",
+            },
+        });
     } catch (error) {
         console.log(error)
     }
