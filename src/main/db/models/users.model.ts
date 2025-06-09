@@ -1,12 +1,12 @@
 import { DataTypes, Sequelize } from "sequelize";
 import moment from "moment";
-import { id } from "./commom";
+import { id, password } from "./commom";
 
 export function usersModel (sequelize: Sequelize) {
   return sequelize.define("users", {
     id: id(),
     username: DataTypes.STRING,
-    password: DataTypes.STRING,
+    password: password(),
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

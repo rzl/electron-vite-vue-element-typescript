@@ -14,7 +14,7 @@ export async function defaultUsers(sequelize: Sequelize) {
             defaults: {
                 id: `${DEFAULT_USERS_KEY}-000000000001`,
                 username: "admin",
-                password: encryptPassword(DEFAULT_USERS_PASSWORD),
+                password: DEFAULT_USERS_PASSWORD,
                 tenant_id: "0",
             },
         });
